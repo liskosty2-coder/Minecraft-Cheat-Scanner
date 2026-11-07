@@ -13,6 +13,27 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 # --- ПРОВЕРКА ПРАВ АДМИНА ---
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
+# --- АНИМИРОВАННАЯ ЗАГРУЗКА ---
+Write-Host ""
+Write-Host "  [SYSTEM] Initializing Tide Checker Engine..." -ForegroundColor DarkGray
+$chars = @('0','1','$','#','%','@','&','*','+','-','=','|','/','\')
+$totalSteps = 30
+for ($i = 0; $i -le $totalSteps; $i++) {
+    $percent = [math]::Round(($i / $totalSteps) * 100)
+    $barLength = [math]::Round(($i / $totalSteps) * 40)
+    $emptyLength = 40 - $barLength
+    $bar = ("█" * $barLength) + ("░" * $emptyLength)
+    
+    # Генерация случайного "кода"
+    $randomCode = -join (1..10 | ForEach-Object { $chars | Get-Random })
+    
+    Write-Host ("`r  [$bar] $percent% | $randomCode") -ForegroundColor Cyan -NoNewline
+    Start-Sleep -Milliseconds 50
+}
+Write-Host "`r  [████████████████████████████████████████] 100% | LOADED    " -ForegroundColor Green
+Start-Sleep -Milliseconds 300
+Write-Host ""
+
 # --- БАННЕР ---
 $Banner = @"
   ████████╗██╗██████╗ ███████╗     ██████╗██╗  ██╗███████╗ ██████╗██╗  ██╗███████╗██████╗ 
@@ -24,7 +45,7 @@ $Banner = @"
 "@
 Write-Host $Banner -ForegroundColor Cyan
 Write-Host "                     ╔═══════════════════════════════════════════════════════╗" -ForegroundColor DarkCyan
-Write-Host "                     ║               [ TIDE CHECKER v1.3 ]                   ║" -ForegroundColor Yellow
+Write-Host "                     ║               [ TIDE CHECKER v1.4 ]                   ║" -ForegroundColor Yellow
 Write-Host "                     ║                  By DONGALIN                          ║" -ForegroundColor Yellow
 Write-Host "                     ╚═══════════════════════════════════════════════════════╝" -ForegroundColor DarkCyan
 Write-Host ""
@@ -109,7 +130,7 @@ $whitelistMods = @(
 )
 
 # --- ГЛОБАЛЬНЫЕ КЭШИ ---
-$global:modrinthHeaders = @{ "User-Agent" = "TideChecker/1.3 (github.com/dongalin)" }
+$global:modrinthHeaders = @{ "User-Agent" = "TideChecker/1.4 (github.com/dongalin)" }
 $global:modrinthCache = @{}
 $global:jarCache = @{}
 
